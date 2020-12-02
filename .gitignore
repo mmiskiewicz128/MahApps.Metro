@@ -268,3 +268,6 @@ tools/
 
 # XamlStyler
 !XamlStyler/
+
+# XamlCombine
+!XamlCombine/
