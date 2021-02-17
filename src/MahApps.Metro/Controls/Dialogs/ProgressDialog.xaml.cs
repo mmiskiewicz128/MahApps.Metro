@@ -50,7 +50,8 @@ namespace MahApps.Metro.Controls.Dialogs
             set => SetValue(ProgressBarForegroundProperty, value);
         }
 
-        public static readonly DependencyProperty ShowMessagePictureProperty = DependencyProperty.Register(nameof(ShowMessagePicture), typeof(bool), typeof(ProgressDialog), new PropertyMetadata(default(bool), (s, e) => { ((ProgressDialog)s).PART_UpdateImage.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Hidden; }));
+        /// <summary>Identifies the <see cref="ShowMessagePicture"/> dependency property.</summary>
+        public static readonly DependencyProperty ShowMessagePictureProperty = DependencyProperty.Register(nameof(ShowMessagePicture), typeof(bool), typeof(ProgressDialog), new PropertyMetadata(BooleanBoxes.FalseBox, (s, e) => { ((ProgressDialog)s).PART_UpdateImage.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Collapsed; }));
 
         public bool ShowMessagePicture
         {

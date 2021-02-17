@@ -30,7 +30,7 @@
         <EmbeddedResource Include="**\*.Template.xaml" />
         <EmbeddedResource Include="**\GeneratorParameters.json" />
         <None Remove="Assets\Eyedropper.cur" />
-        <Resource Remove="Resources\update3.jpg" />
+        <None Remove="Resources\update3.jpg" />
         <Resource Include="Assets\Eyedropper.cur" />
         <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     </ItemGroup>

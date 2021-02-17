@@ -230,7 +230,8 @@ namespace MahApps.Metro.Controls.Dialogs
                     {
                         Title = title,
                         Message = message,
-                        IsCancelable = isCancelable
+                        IsCancelable = isCancelable,
+                        ShowMessagePicture = showMessagePicture
                     };
 
                     SetDialogFontSizes(settings, dialog);
