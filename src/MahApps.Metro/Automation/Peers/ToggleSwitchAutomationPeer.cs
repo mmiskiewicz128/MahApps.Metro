@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using JetBrains.Annotations;
+using MahApps.Metro.Controls;
 using System.Windows.Automation;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
-using JetBrains.Annotations;
-using MahApps.Metro.Controls;
 
 namespace MahApps.Metro.Automation.Peers
 {
@@ -43,7 +43,7 @@ namespace MahApps.Metro.Automation.Peers
         {
             if (oldValue != newValue)
             {
-                this.RaisePropertyChangedEvent(TogglePatternIdentifiers.ToggleStateProperty, ConvertToToggleState(oldValue), ConvertToToggleState(newValue));
+                RaisePropertyChangedEvent(TogglePatternIdentifiers.ToggleStateProperty, ConvertToToggleState(oldValue), ConvertToToggleState(newValue));
             }
         }
 
@@ -52,14 +52,11 @@ namespace MahApps.Metro.Automation.Peers
             return value ? ToggleState.On : ToggleState.Off;
         }
 
-        public ToggleState ToggleState => ConvertToToggleState(((ToggleSwitch)this.Owner).IsOn);
+        public ToggleState ToggleState => ToggleState.Indeterminate;
 
         public void Toggle()
         {
-            if (this.IsEnabled())
-            {
-                ((ToggleSwitch)this.Owner).AutomationPeerToggle();
-            }
+
         }
     }
 }

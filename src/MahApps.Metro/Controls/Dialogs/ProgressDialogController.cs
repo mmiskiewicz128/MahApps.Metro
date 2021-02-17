@@ -1,14 +1,10 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using System;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-
 namespace MahApps.Metro.Controls.Dialogs
 {
+    using System;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Media;
+
     /// <summary>
     /// A class for manipulating an open ProgressDialog.
     /// </summary>
@@ -47,19 +43,18 @@ namespace MahApps.Metro.Controls.Dialogs
 
             this.WrappedDialog.Invoke(() => { this.WrappedDialog.PART_NegativeButton.Click += this.PART_NegativeButton_Click; });
 
-            dialog.CancellationToken.Register(() => { this.WrappedDialog.BeginInvoke(this.Abort); });
+            dialog.CancellationToken.Register(() => { this.PART_NegativeButton_Click(null, new RoutedEventArgs()); });
         }
 
         private void PART_NegativeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.WrappedDialog.Invoke(this.Abort);
-        }
-
-        private void Abort()
-        {
-            this.WrappedDialog.PART_NegativeButton.IsEnabled = false;
-            this.IsCanceled = true;
-            this.Canceled?.Invoke(this, EventArgs.Empty);
+            Action action = () =>
+                {
+                    this.IsCanceled = true;
+                    this.Canceled?.Invoke(this, EventArgs.Empty);
+                    this.WrappedDialog.PART_NegativeButton.IsEnabled = false;
+                };
+            this.WrappedDialog.Invoke(action);
         }
 
         /// <summary>
@@ -79,6 +74,11 @@ namespace MahApps.Metro.Controls.Dialogs
             this.WrappedDialog.Invoke(() => this.WrappedDialog.IsCancelable = value);
         }
 
+        public void SetUpdateImage(bool value)
+        {
+            this.WrappedDialog.Invoke(() => this.WrappedDialog.ShowMessagePicture = value);
+        }
+
         /// <summary>
         /// Sets the dialog's progress bar value and sets IsIndeterminate to false.
         /// </summary>
@@ -91,14 +91,13 @@ namespace MahApps.Metro.Controls.Dialogs
                     {
                         throw new ArgumentOutOfRangeException(nameof(value));
                     }
-
                     this.WrappedDialog.ProgressValue = value;
                 };
             this.WrappedDialog.Invoke(action);
         }
 
         /// <summary>
-        ///  Gets/Sets the minimum restriction of the progress Value property.
+        ///  Gets/Sets the minimum restriction of the progress Value property
         /// </summary>
         public double Minimum
         {
@@ -107,7 +106,7 @@ namespace MahApps.Metro.Controls.Dialogs
         }
 
         /// <summary>
-        ///  Gets/Sets the maximum restriction of the progress Value property.
+        ///  Gets/Sets the maximum restriction of the progress Value property
         /// </summary>
         public double Maximum
         {
@@ -134,9 +133,9 @@ namespace MahApps.Metro.Controls.Dialogs
         }
 
         /// <summary>
-        /// Sets the dialog's progress bar brush.
+        /// Sets the dialog's progress bar brush
         /// </summary>
-        /// <param name="brush">The brush to use for the progress bar's foreground.</param>
+        /// <param name="brush">The brush to use for the progress bar's foreground</param>
         public void SetProgressBarForegroundBrush(Brush brush)
         {
             this.WrappedDialog.Invoke(() => this.WrappedDialog.ProgressBarForeground = brush);
@@ -154,7 +153,6 @@ namespace MahApps.Metro.Controls.Dialogs
                     {
                         throw new InvalidOperationException("Dialog isn't visible to close");
                     }
-
                     this.WrappedDialog.Dispatcher.VerifyAccess();
                     this.WrappedDialog.PART_NegativeButton.Click -= this.PART_NegativeButton_Click;
                 };
@@ -163,10 +161,10 @@ namespace MahApps.Metro.Controls.Dialogs
 
             return this.CloseCallback()
                        .ContinueWith(_ => this.WrappedDialog.Invoke(() =>
-                           {
-                               this.IsOpen = false;
-                               this.Closed?.Invoke(this, EventArgs.Empty);
-                           }));
+                                                                        {
+                                                                            this.IsOpen = false;
+                                                                            this.Closed?.Invoke(this, EventArgs.Empty);
+                                                                        }));
         }
     }
 }

@@ -7,6 +7,8 @@
         <RootNamespace>MahApps.Metro</RootNamespace>
         <DefaultItemExcludes>$(DefaultItemExcludes);**\*.Template.xaml</DefaultItemExcludes>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>TME.MahApps.Metro</PackageId>
+        <Authors>Jan Karger, Dennis Daume, Brendan Forster, Paul Jenkins, Jake Ginnivan, Alex Mitchell</Authors>
     </PropertyGroup>
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) ">
@@ -15,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ControlzEx" version="4.*" />
+        <PackageReference Include="ControlzEx" Version="4.4.0" />
         <PackageReference Include="XamlColorSchemeGenerator" version="4-*" PrivateAssets="All" IIncludeAssets="build" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*">
             <PrivateAssets>all</PrivateAssets>
@@ -28,6 +30,7 @@
         <EmbeddedResource Include="**\*.Template.xaml" />
         <EmbeddedResource Include="**\GeneratorParameters.json" />
         <None Remove="Assets\Eyedropper.cur" />
+        <Resource Remove="Resources\update3.jpg" />
         <Resource Include="Assets\Eyedropper.cur" />
         <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     </ItemGroup>
@@ -38,9 +41,18 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>ColorNames.resx</DependentUpon>
         </Compile>
+        <Compile Update="Properties\Resources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
         <EmbeddedResource Update="Lang\ColorNames.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>ColorNames.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
 

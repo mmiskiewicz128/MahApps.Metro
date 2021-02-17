@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using MahApps.Metro.ValueBoxes;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
-using MahApps.Metro.ValueBoxes;
 
 namespace MahApps.Metro.Controls.Dialogs
 {
@@ -19,8 +19,8 @@ namespace MahApps.Metro.Controls.Dialogs
 
         public string Message
         {
-            get { return (string)this.GetValue(MessageProperty); }
-            set { this.SetValue(MessageProperty, value); }
+            get => (string)GetValue(MessageProperty);
+            set => SetValue(MessageProperty, value);
         }
 
         /// <summary>Identifies the <see cref="IsCancelable"/> dependency property.</summary>
@@ -28,8 +28,8 @@ namespace MahApps.Metro.Controls.Dialogs
 
         public bool IsCancelable
         {
-            get { return (bool)this.GetValue(IsCancelableProperty); }
-            set { this.SetValue(IsCancelableProperty, BooleanBoxes.Box(value)); }
+            get => (bool)GetValue(IsCancelableProperty);
+            set => SetValue(IsCancelableProperty, BooleanBoxes.Box(value));
         }
 
         /// <summary>Identifies the <see cref="NegativeButtonText"/> dependency property.</summary>
@@ -37,8 +37,8 @@ namespace MahApps.Metro.Controls.Dialogs
 
         public string NegativeButtonText
         {
-            get { return (string)this.GetValue(NegativeButtonTextProperty); }
-            set { this.SetValue(NegativeButtonTextProperty, value); }
+            get => (string)GetValue(NegativeButtonTextProperty);
+            set => SetValue(NegativeButtonTextProperty, value);
         }
 
         /// <summary>Identifies the <see cref="ProgressBarForeground"/> dependency property.</summary>
@@ -46,8 +46,16 @@ namespace MahApps.Metro.Controls.Dialogs
 
         public Brush ProgressBarForeground
         {
-            get { return (Brush)this.GetValue(ProgressBarForegroundProperty); }
-            set { this.SetValue(ProgressBarForegroundProperty, value); }
+            get => (Brush)GetValue(ProgressBarForegroundProperty);
+            set => SetValue(ProgressBarForegroundProperty, value);
+        }
+
+        public static readonly DependencyProperty ShowMessagePictureProperty = DependencyProperty.Register(nameof(ShowMessagePicture), typeof(bool), typeof(ProgressDialog), new PropertyMetadata(default(bool), (s, e) => { ((ProgressDialog)s).PART_UpdateImage.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Hidden; }));
+
+        public bool ShowMessagePicture
+        {
+            get => (bool)GetValue(ShowMessagePictureProperty);
+            set => SetValue(ShowMessagePictureProperty, value);
         }
 
         internal ProgressDialog()
@@ -63,43 +71,43 @@ namespace MahApps.Metro.Controls.Dialogs
         internal ProgressDialog(MetroWindow parentWindow, MetroDialogSettings settings)
             : base(parentWindow, settings)
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnLoaded()
         {
-            this.NegativeButtonText = this.DialogSettings.NegativeButtonText;
-            this.SetResourceReference(ProgressBarForegroundProperty, this.DialogSettings.ColorScheme == MetroDialogColorScheme.Theme ? "MahApps.Brushes.Accent" : "MahApps.Brushes.ThemeForeground");
+            NegativeButtonText = DialogSettings.NegativeButtonText;
+            SetResourceReference(ProgressBarForegroundProperty, DialogSettings.ColorScheme == MetroDialogColorScheme.Theme ? "MahApps.Brushes.Accent" : "MahApps.Brushes.ThemeForeground");
         }
 
-        internal CancellationToken CancellationToken => this.DialogSettings.CancellationToken;
+        internal CancellationToken CancellationToken => DialogSettings.CancellationToken;
 
         internal double Minimum
         {
-            get { return this.PART_ProgressBar.Minimum; }
-            set { this.PART_ProgressBar.Minimum = value; }
+            get => PART_ProgressBar.Minimum;
+            set => PART_ProgressBar.Minimum = value;
         }
 
         internal double Maximum
         {
-            get { return this.PART_ProgressBar.Maximum; }
-            set { this.PART_ProgressBar.Maximum = value; }
+            get => PART_ProgressBar.Maximum;
+            set => PART_ProgressBar.Maximum = value;
         }
 
         internal double ProgressValue
         {
-            get { return this.PART_ProgressBar.Value; }
+            get => PART_ProgressBar.Value;
             set
             {
-                this.PART_ProgressBar.IsIndeterminate = false;
-                this.PART_ProgressBar.Value = value;
-                this.PART_ProgressBar.ApplyTemplate();
+                PART_ProgressBar.IsIndeterminate = false;
+                PART_ProgressBar.Value = value;
+                PART_ProgressBar.ApplyTemplate();
             }
         }
 
         internal void SetIndeterminate()
         {
-            this.PART_ProgressBar.IsIndeterminate = true;
+            PART_ProgressBar.IsIndeterminate = true;
         }
     }
 }

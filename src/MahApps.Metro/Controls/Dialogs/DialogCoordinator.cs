@@ -1,8 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -51,10 +47,10 @@ namespace MahApps.Metro.Controls.Dialogs
             return metroWindow.ShowModalMessageExternal(title, message, style, settings);
         }
 
-        public Task<ProgressDialogController> ShowProgressAsync(object context, string title, string message, bool isCancelable = false, MetroDialogSettings settings = null)
+        public Task<ProgressDialogController> ShowProgressAsync(object context, string title, string message, bool showMessagePicture = false, bool isCancelable = false, MetroDialogSettings settings = null)
         {
             var metroWindow = GetMetroWindow(context);
-            return metroWindow.Invoke(() => metroWindow.ShowProgressAsync(title, message, isCancelable, settings));
+            return metroWindow.Invoke(() => metroWindow.ShowProgressAsync(title, message, showMessagePicture, isCancelable, settings));
         }
 
         public Task ShowMetroDialogAsync(object context, BaseMetroDialog dialog, MetroDialogSettings settings = null)
@@ -69,8 +65,7 @@ namespace MahApps.Metro.Controls.Dialogs
             return metroWindow.Invoke(() => metroWindow.HideMetroDialogAsync(dialog, settings));
         }
 
-        public Task<TDialog> GetCurrentDialogAsync<TDialog>(object context)
-            where TDialog : BaseMetroDialog
+        public Task<TDialog> GetCurrentDialogAsync<TDialog>(object context) where TDialog : BaseMetroDialog
         {
             var metroWindow = GetMetroWindow(context);
             return metroWindow.Invoke(() => metroWindow.GetCurrentDialogAsync<TDialog>());
@@ -82,7 +77,6 @@ namespace MahApps.Metro.Controls.Dialogs
             {
                 throw new ArgumentNullException(nameof(context));
             }
-
             if (!DialogParticipation.IsRegistered(context))
             {
                 throw new InvalidOperationException("Context is not registered. Consider using DialogParticipation.Register in XAML to bind in the DataContext.");
@@ -94,7 +88,6 @@ namespace MahApps.Metro.Controls.Dialogs
             {
                 throw new InvalidOperationException("Context is not inside a MetroWindow.");
             }
-
             return metroWindow;
         }
     }
